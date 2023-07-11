@@ -1,4 +1,4 @@
-/* console.log("Hola Mundo!");
+/*
 
 const X = prompt("Ingresar N1:");
 const Y = prompt("Ingresar N2:");
@@ -17,7 +17,7 @@ const restar = function (val1, val2) {
 
 const multiplicar = val1 => {
   return val1 * 2;
-}; // Funcion flecha --- para codifos de una sola linea o muy breves
+}; // Funcion flecha 
 
 console.log(sumar(varX, varY));
 console.log(restar(varX, varY));
@@ -52,10 +52,10 @@ function validation(verif) {
   return verif;
 } //Verificacion de prompt
 
-alert("A que concierte quiere ir ?");
-
 let concierto = parseInt(
-  prompt("1- Soda Estereo 2-Rata Blanca 3-Los Abuelos de la Nada")
+  prompt(
+    "A que concierte quiere ir ? \n 1- Soda Estereo 2-Rata Blanca 3-Los Abuelos de la Nada"
+  )
 );
 concierto = evento.banda[validation(concierto) - 1];
 
@@ -83,18 +83,11 @@ class ticket {
 
 let auto_ticket = new ticket(concierto, horario, ubicacion, precio);
 
-console.log(
-  "Test -Horario " +
-    horario +
-    " -COncierto " +
-    concierto +
-    " -Ubicacion " +
-    ubicacion +
-    " -Precio " +
-    precio
-);
+for (let key in evento) {
+  let value = evento[key];
 
-console.log(evento);
+  console.log("Key: " + key + " , Valor: " + value);
+}
 
 console.log(auto_ticket);
 console.log("\n EN caso de querer usar clase llamar por - ticket -");
