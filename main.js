@@ -94,5 +94,7 @@ console.log(
     precio
 );
 
+console.log(evento);
+
 console.log(auto_ticket);
 console.log("\n EN caso de querer usar clase llamar por - ticket -");
