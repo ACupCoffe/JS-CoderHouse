@@ -1,78 +1,41 @@
-/*
-
-const X = prompt("Ingresar N1:");
-const Y = prompt("Ingresar N2:");
-
-const varX = parseInt(X);
-const varY = parseInt(Y);
-
-function sumar(val1, val2) {
-  const total = val1 + val2;
-  return total;
-}
-
-const restar = function (val1, val2) {
-  return val1 + val2;
-}; // Funcion anonima
-
-const multiplicar = val1 => {
-  return val1 * 2;
-}; // Funcion flecha 
-
-console.log(sumar(varX, varY));
-console.log(restar(varX, varY));
-console.log(multiplicar(varX, varY));
-
-if (X > 10) {
-  console.log("Valor ingresado mayor a 10");
-} else if (X >= 0) {
-  console.log("Valor menor a 10 y positivo");
-} else {
-  console.log("Valor negativo");
-}
-
-for (let i = 0; i < 10; i++) {
-  console.log(i);
-}
- */
-
 let precio = 0;
 
 const evento = {
   banda: ["Soda Estereo", "Rata Blanca", "Los Abuelos de la Nada"],
-  horario: ["Manana", "Tarde", "Noche"],
+  horario: ["Mañana", "Tarde", "Noche"],
   ubicacion: ["Platea", "Palco", "Popular"],
   precio: [1500, 1200, 900],
 }; // DATOS
 
-function validation(verif) {
-  while (isNaN(verif) || verif > 3 || verif < 0) {
-    verif = parseInt(prompt("Por favor ingrese un valor asignado:"));
+function validation(verif, max) {
+  while (isNaN(verif) || verif > max || verif < 1) {
+    verif = parseInt(prompt("Por favor ingrese un valor válido:"));
   }
   return verif;
-} //Verificacion de prompt
+} // Verificación de prompt
 
 let concierto = parseInt(
   prompt(
-    "A que concierte quiere ir ? \n 1- Soda Estereo 2-Rata Blanca 3-Los Abuelos de la Nada"
+    "A qué concierto quiere ir ? \n 1- Soda Estereo 2- Rata Blanca 3- Los Abuelos de la Nada"
   )
 );
-concierto = evento.banda[validation(concierto) - 1];
+concierto = evento.banda[validation(concierto, evento.banda.length) - 1];
 
 let horario = parseInt(
-  prompt("Seleccione el horario: \n 1-Manana 2-Tarde 3-Noche")
+  prompt("Seleccione el horario: \n 1- Mañana 2- Tarde 3- Noche")
 );
-horario = evento.horario[validation(horario) - 1];
+horario = evento.horario[validation(horario, evento.horario.length) - 1];
 
 let ubicacion = parseInt(
   prompt(
-    "Indique que ubicacion quiere: \n 1-Platea: 1200 2-Palcos 1500 3-Popular 900"
+    "Indique qué ubicación quiere: \n 1- Platea: 1200 2- Palcos 1500 3- Popular 900"
   )
 );
-ubicacion = evento.ubicacion[validation(ubicacion) - 1];
-precio = evento.precio[validation(ubicacion) - 1];
+ubicacion =
+  evento.ubicacion[validation(ubicacion, evento.ubicacion.length) - 1];
+precio = evento.precio[validation(ubicacion, evento.precio.length) - 1];
 
-class ticket {
+class Ticket {
   constructor(banda, hora, asiento, valor) {
     this.banda = banda;
     this.hora = hora;
@@ -81,13 +44,81 @@ class ticket {
   }
 }
 
-let auto_ticket = new ticket(concierto, horario, ubicacion, precio);
+let auto_ticket = new Ticket(concierto, horario, ubicacion, precio);
+console.log(auto_ticket); // TICKET PRINCIPAL
 
-for (let key in evento) {
-  let value = evento[key];
+// Otros eventos
+function otros_eventos(evento_asistido) {
+  let copy_evento = { ...evento };
+  banda_eliminar = concierto;
+  //console.log("Elimnar la banda ", banda_eliminar);
 
-  console.log("Key: " + key + " , Valor: " + value);
+  copy_evento.banda.splice(evento_asistido, 1);
+  copy_evento.horario = horario;
+  copy_evento.ubicacion = ubicacion;
+  copy_evento.precio = precio;
+
+  return copy_evento;
 }
 
-console.log(auto_ticket);
-console.log("\n EN caso de querer usar clase llamar por - ticket -");
+// Mostrar otras bandas con el mismo horario y asiento
+console.log("Otras bandas en el mismo horario y asiento:");
+let sugerencia = otros_eventos();
+//console.log(sugerencia);
+
+for (let i = 0; i != sugerencia.banda.length; i++) {
+  console.log(
+    sugerencia.banda[i],
+    "\n",
+    sugerencia.horario,
+    "\n",
+    sugerencia.ubicacion,
+    "\n",
+    sugerencia.precio
+  );
+}
+
+//  AGREGAR AL HTML - DOM
+
+const titulo_h3 = document.createElement("h3");
+titulo_h3.innerText = "Otras bandas en el mismo horario y asiento:";
+document
+  .getElementById("sugerencia")
+  .insertAdjacentElement("beforebegin", titulo_h3);
+
+// AUTOMATICO  BOLETO-----
+const boleto_automatico = document.getElementById("ticket_auto"); // boleto auto
+const contenido_auto = document.createElement("h1"); // titulo
+contenido_auto.innerText = "Banda: " + auto_ticket.banda;
+const desc_auto = document.createElement("p");
+desc_auto.innerText =
+  "Horario: " +
+  auto_ticket.hora +
+  " \n Ubicacion: " +
+  auto_ticket.asiento +
+  "\n Precio: " +
+  auto_ticket.valor;
+
+boleto_automatico.appendChild(contenido_auto);
+boleto_automatico.appendChild(desc_auto);
+
+// SUGERENCIAS -----
+
+const sugerencia_boleto = document.getElementById("sugerencia");
+for (let i = 0; i != sugerencia.banda.length; i++) {
+  const card_sugerencia = document.createElement("div"); // CUERPO DE SUGERENCIA
+  sugerencia_boleto.appendChild(card_sugerencia);
+  card_sugerencia.classList.add("tarjeta_sugerencia");
+  const sugerencia_titulo = document.createElement("h1"); // TITULO SUGERENCIA
+  sugerencia_titulo.innerText = sugerencia.banda[i];
+  card_sugerencia.appendChild(sugerencia_titulo);
+  const sugerencia_desc = document.createElement("p");
+  sugerencia_desc.innerText =
+    "Horaio: " +
+    sugerencia.horario +
+    "\n Ubicacion: " +
+    sugerencia.ubicacion +
+    "\n Precio: " +
+    sugerencia.precio;
+  card_sugerencia.appendChild(sugerencia_desc);
+}
