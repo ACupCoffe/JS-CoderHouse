@@ -9,7 +9,7 @@ search.addEventListener("keyup", function (event) {
 
     localStorage.setItem("termino_buscado", termino_buscado);
     console.log(termino_buscado);
-    window.location.href = "../pag2.html";
+    window.location.href = "./pag2.html";
   }
 });
 
