@@ -1,0 +1,17 @@
+import { gpu, cpu } from "./data.js";
+
+const productos = { ...gpu, ...cpu };
+
+let producto_encontrado = [];
+
+let buscando = document.getElementById("search");
+buscando.addEventListener("keyup", function () {
+  const valor_buscado = buscando.value;
+  console.log(valor_buscado);
+});
+
+console.log(typeof productos);
+
+Object.entries(productos).forEach((valor_obj, info) => {
+  console.log(valor_obj + " ------ ", info);
+});
